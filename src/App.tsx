@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Car,
   Smartphone,
@@ -89,12 +89,27 @@ function App() {
     fleetSize: '',
   });
 
+  //Mobile-View rotation functionality for carousel
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const carouselTimer = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % 3);
+    }, 5000);
+    
+    return () => clearInterval(carouselTimer);
+  }, []);
+  //
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
   };
 
+
+  
   return (
+    
     <div className="min-h-screen bg-white">
       {/* Navbar */}
       <nav className="bg-white shadow-sm fixed w-full z-50">
@@ -167,50 +182,50 @@ function App() {
         <p className="mt-6 text-lg text-blue-100 sm:text-xl max-w-3xl">
           Transform your fleet management with smartphone-based telematics. Monitor driver behavior, improve safety, and reduce costs—all from a single platform.
         </p>
-        <div className="mt-8 bg-white p-6 rounded-lg shadow-xl backdrop-blur-lg">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Start Your Free Trial</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-8 bg-white p-6 sm:p-8 rounded-lg shadow-xl backdrop-blur-lg">
+          <h3 className="text-xl font-semibold text-gray-900 mb-6">Start Your Free Trial</h3>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
                 <input
                   type="text"
                   id="name"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+                  className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                 <input
                   type="email"
                   id="email"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+                  className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
                 />
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700">Company</label>
+                <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">Company</label>
                 <input
                   type="text"
                   id="company"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+                  className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3"
                   value={formData.company}
                   onChange={(e) => setFormData({...formData, company: e.target.value})}
                   required
                 />
               </div>
               <div>
-                <label htmlFor="fleetSize" className="block text-sm font-medium text-gray-700">Fleet Size</label>
+                <label htmlFor="fleetSize" className="block text-sm font-medium text-gray-700 mb-2">Fleet Size</label>
                 <select
                   id="fleetSize"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+                  className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3"
                   value={formData.fleetSize}
                   onChange={(e) => setFormData({...formData, fleetSize: e.target.value})}
                   required
@@ -351,52 +366,61 @@ function App() {
       </div>
       
       {/* Mobile View - Carousel */}
-      <div className="md:hidden">
-        <div className="flex overflow-x-auto pb-8 space-x-8 snap-x">
-          {/* Screenshot 1 - Driver Dashboard */}
-          <div className="flex-shrink-0 w-64 snap-center">
-            <div className="text-center">
-              <img
-                src="https://www.xemplardrive.com/assets/images/i-dashboardnew.png"
-                alt="Driver Dashboard"
-                className="mx-auto max-w-full h-auto"
-              />
-              <p className="mt-4 text-center text-gray-700 font-medium">Driver Dashboard</p>
-            </div>
-          </div>
-          
-          {/* Screenshot 2 - Trip Details */}
-          <div className="flex-shrink-0 w-64 snap-center">
-            <div className="text-center">
-              <img
-                src="https://www.xemplardrive.com/assets/images/i-Trip-Details.png"
-                alt="Trip Details"
-                className="mx-auto max-w-full h-auto"
-              />
-              <p className="mt-4 text-center text-gray-700 font-medium">Trip Details</p>
-            </div>
-          </div>
-          
-          {/* Screenshot 3 - Safety Campaigns */}
-          <div className="flex-shrink-0 w-64 snap-center">
-            <div className="text-center">
-              <img
-                src="https://www.xemplardrive.com/assets/images/i-Safety%20Campaigns.png"
-                alt="Safety Campaigns"
-                className="mx-auto max-w-full h-auto"
-              />
-              <p className="mt-4 text-center text-gray-700 font-medium">Safety Campaigns</p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Navigation Controls for Mobile */}
-        <div className="flex justify-center mt-6 space-x-2">
-          <button className="w-2 h-2 rounded-full bg-blue-600"></button>
-          <button className="w-2 h-2 rounded-full bg-gray-300"></button>
-          <button className="w-2 h-2 rounded-full bg-gray-300"></button>
-        </div>
+<div className="md:hidden">
+  <div className="flex overflow-hidden relative">
+    {/* Screenshot 1 - Driver Dashboard */}
+    <div className={`w-full flex-shrink-0 transition-opacity duration-500 ${currentSlide === 0 ? 'opacity-100' : 'opacity-0 absolute'}`}>
+      <div className="text-center px-8">
+        <img
+          src="https://www.xemplardrive.com/assets/images/i-dashboardnew.png"
+          alt="Driver Dashboard"
+          className="mx-auto h-auto w-56"
+        />
+        <p className="mt-4 text-center text-gray-700 font-medium">Driver Dashboard</p>
       </div>
+    </div>
+    
+    {/* Screenshot 2 - Trip Details */}
+    <div className={`w-full flex-shrink-0 transition-opacity duration-500 ${currentSlide === 1 ? 'opacity-100' : 'opacity-0 absolute'}`}>
+      <div className="text-center px-8">
+        <img
+          src="https://www.xemplardrive.com/assets/images/i-Trip-Details.png"
+          alt="Trip Details"
+          className="mx-auto h-auto w-56"
+        />
+        <p className="mt-4 text-center text-gray-700 font-medium">Trip Details</p>
+      </div>
+    </div>
+    
+    {/* Screenshot 3 - Safety Campaigns */}
+    <div className={`w-full flex-shrink-0 transition-opacity duration-500 ${currentSlide === 2 ? 'opacity-100' : 'opacity-0 absolute'}`}>
+      <div className="text-center px-8">
+        <img
+          src="https://www.xemplardrive.com/assets/images/i-Safety%20Campaigns.png"
+          alt="Safety Campaigns"
+          className="mx-auto h-auto w-56"
+        />
+        <p className="mt-4 text-center text-gray-700 font-medium">Safety Campaigns</p>
+      </div>
+    </div>
+  </div>
+  
+  {/* Modern Navigation Dots for Mobile */}
+  <div className="flex justify-center mt-6 space-x-3">
+    <button 
+      onClick={() => setCurrentSlide(0)}
+      className={`w-2 h-2 rounded-full ${currentSlide === 0 ? 'bg-blue-500 opacity-70' : 'bg-gray-300 opacity-50'} transition-all duration-300`}
+    ></button>
+    <button 
+      onClick={() => setCurrentSlide(1)}
+      className={`w-2 h-2 rounded-full ${currentSlide === 1 ? 'bg-blue-500 opacity-70' : 'bg-gray-300 opacity-50'} transition-all duration-300`}
+    ></button>
+    <button 
+      onClick={() => setCurrentSlide(2)}
+      className={`w-2 h-2 rounded-full ${currentSlide === 2 ? 'bg-blue-500 opacity-70' : 'bg-gray-300 opacity-50'} transition-all duration-300`}
+    ></button>
+  </div>
+</div>
     </div>
   </div>
 </div>
